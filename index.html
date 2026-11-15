@@ -23,7 +23,7 @@
     <div class="wrap top-in">
       <a class="brand" href="#">Стиль<small>салон красоты</small></a>
       <nav class="nav" aria-label="Разделы">
-        <a href="#services">Услуги</a><a href="#certificate">Сертификат</a><a href="#work">Работы</a><a href="#contacts">Филиалы</a>
+        <a href="#services">Услуги</a><a href="#masters">Мастера</a><a href="#work">Работы</a><a href="#certificate">Сертификат</a><a href="#contacts">Филиалы</a>
       </nav>
       <a class="btn sm" href="#services">Записаться</a>
     </div>
@@ -79,6 +79,22 @@
       </div>
     </section>
 
+    <section class="block" id="masters">
+      <div class="wrap">
+        <p class="eyebrow">Команда</p>
+        <h2>Наши мастера</h2>
+        <div class="grid" id="masterList"></div>
+      </div>
+    </section>
+
+    <section class="block tint" id="work">
+      <div class="wrap">
+        <p class="eyebrow">Портфолио</p>
+        <h2>Наши работы</h2>
+        <div class="grid" id="gallery"></div>
+      </div>
+    </section>
+
     <section class="block" id="certificate">
       <div class="wrap">
         <div class="cert">
@@ -95,15 +111,7 @@
       </div>
     </section>
 
-    <section class="block tint" id="work">
-      <div class="wrap">
-        <p class="eyebrow">Портфолио</p>
-        <h2>Наши работы</h2>
-        <div class="grid" id="gallery"></div>
-      </div>
-    </section>
-
-    <section class="block" id="reviews">
+    <section class="block tint" id="reviews">
       <div class="wrap">
         <p class="eyebrow">Отзывы</p>
         <h2>Нас оценили на 4,8 из 5</h2>
@@ -113,14 +121,14 @@
       </div>
     </section>
 
-    <section class="block tint" id="contacts">
+    <section class="block" id="contacts">
       <div class="wrap">
         <p class="eyebrow">Контакты</p>
         <h2>Филиалы</h2>
         <div class="grid two" id="branches"></div>
       </div>
     </section>
-  </main>
+</main>
 
   <footer class="foot">
     <div class="wrap">
@@ -140,12 +148,13 @@
     <ul id="chosen"></ul>
     <div class="field"><label for="fName">Имя</label><input id="fName" type="text" autocomplete="name"></div>
     <div class="field"><label for="fBranch">Филиал</label><select id="fBranch"></select></div>
+    <div class="field"><label for="fMaster">Мастер</label><select id="fMaster"></select></div>
     <div class="two">
       <div class="field"><label for="fDate">Желаемая дата</label><input id="fDate" type="date"></div>
       <div class="field"><label for="fTime">Время</label>
         <select id="fTime"><option>Утро (9-12)</option><option>День (12-16)</option><option>Вечер (16-20)</option></select></div>
     </div>
-    <div class="field"><label for="fNote">Комментарий или мастер</label><input id="fNote" type="text"></div>
+    <div class="field"><label for="fNote">Комментарий</label><input id="fNote" type="text"></div>
     <p class="msg" id="msg" role="status"></p>
     <div class="actions">
       <button class="btn" type="button" id="send">Отправить в WhatsApp</button>

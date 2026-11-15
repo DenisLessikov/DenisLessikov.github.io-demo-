@@ -7,6 +7,12 @@ const CONFIG = {
     { name: "Второй филиал (адрес уточнить)", hours: "Часы работы уточнить" }
   ],
   certificates: [5000, 10000, 20000],
+  masters: [                 // photo: "img/master1.jpg" (пусто = заглушка)
+    { name: "Мастер 1", role: "Парикмахер-стилист", photo: "" },
+    { name: "Мастер 2", role: "Колорист", photo: "" },
+    { name: "Мастер 3", role: "Мастер маникюра", photo: "" },
+    { name: "Мастер 4", role: "Барбер", photo: "" }
+  ],
   gallery: [],               // ["img/work1.jpg", ...] фото работ
   reviews: []                // ["img/reviews/1.jpg", ...] скриншоты отзывов
 };
@@ -116,6 +122,9 @@ function drawStatic() {
   $("branches").innerHTML = CONFIG.branches.map((b, n) =>
     `<div class="card"><span class="tag">Филиал ${n + 1}</span><h3>${b.name}</h3><p>${b.hours}</p><p><a href="${link2gis}" target="_blank" rel="noopener">Открыть в 2ГИС</a></p></div>`).join("");
   $("fBranch").innerHTML = CONFIG.branches.map(b => `<option>${b.name}</option>`).join("");
+  $("masterList").innerHTML = CONFIG.masters.map(m =>
+    `<article class="master"><div class="mph">${m.photo ? `<img src="${m.photo}" alt="${m.name}" loading="lazy">` : "Фото мастера"}</div><h3>${m.name}</h3><p>${m.role}</p></article>`).join("");
+  $("fMaster").innerHTML = `<option>Любой мастер</option>` + CONFIG.masters.map(m => `<option>${m.name}, ${m.role}</option>`).join("");
   $("fDate").min = new Date().toISOString().slice(0, 10);
 }
 
@@ -148,6 +157,7 @@ $("send").addEventListener("click", () => {
   const text = [
     "Здравствуйте! Хочу записаться в салон «Стиль».",
     `Филиал: ${$("fBranch").value}`,
+    $("fMaster").selectedIndex > 0 && `Мастер: ${$("fMaster").value}`,
     "Услуги:", ...chosen().map(s => `• ${s.name} (${label(s)})`),
     `Желаемая дата: ${d ? d.split("-").reverse().join(".") : "как можно скорее"}`,
     `Время: ${$("fTime").value}`,
