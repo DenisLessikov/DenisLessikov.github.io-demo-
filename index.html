@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Салон красоты «Стиль» в Петропавловске: цены и запись</title>
+  <meta name="description" content="Стрижки, окрашивание, маникюр, педикюр и брови. 25 лет в Петропавловске. Выберите услуги и запишитесь в WhatsApp.">
+  <meta property="og:title" content="Салон красоты «Стиль», Петропавловск">
+  <meta property="og:description" content="Цены на услуги и онлайн-запись в WhatsApp.">
+  <meta property="og:image" content="https://ВАШ-САЙТ/img/og.jpg">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BeautySalon","name":"Салон красоты «Стиль»",
+   "address":{"@type":"PostalAddress","streetAddress":"улица Магжана Жумабаева, 116","addressLocality":"Петропавловск","addressCountry":"KZ"},
+   "openingHours":"Mo-Su 09:00-20:00","sameAs":["https://www.instagram.com/salon_stil_petro"]}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top-in">
+      <a class="brand" href="#">Стиль<small>салон красоты</small></a>
+      <nav class="nav" aria-label="Разделы">
+        <a href="#services">Услуги</a><a href="#certificate">Сертификат</a><a href="#work">Работы</a><a href="#contacts">Филиалы</a>
+      </nav>
+      <a class="btn sm" href="#services">Записаться</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap hero-in">
+      <div class="hero-text">
+        <p class="eyebrow left">Петропавловск</p>
+        <h1>Салон красоты «Стиль»</h1>
+        <p class="lead">Стрижки, окрашивание, маникюр и брови. Выберите услуги, и заявка уйдёт администратору в WhatsApp уже готовой.</p>
+        <div class="hero-btns">
+          <a class="btn" href="#services">Выбрать услуги</a>
+          <a class="btn ghost" href="#contacts">Адреса и часы</a>
+        </div>
+      </div>
+      <aside class="stat" aria-label="О салоне">
+        <strong>25</strong><span>лет работы</span>
+        <i class="stars" aria-hidden="true">★★★★★</i>
+        <em>4,8 в 2ГИС · 175 оценок</em>
+      </aside>
+    </div>
+  </section>
+
+  <div class="facts">
+    <ul class="wrap">
+      <li><b>2 филиала</b> в городе</li>
+      <li><b>Ежедневно</b> 9:00-20:00</li>
+      <li><b>Запись</b> в WhatsApp или по телефону</li>
+    </ul>
+  </div>
+
+  <main>
+    <section class="block">
+      <div class="wrap">
+        <p class="eyebrow">Как это работает</p>
+        <h2>Запись за минуту</h2>
+        <ol class="steps">
+          <li><span>1</span><h3>Выберите услуги</h3><p>Отметьте нужные позиции в прайсе.</p></li>
+          <li><span>2</span><h3>Укажите дату</h3><p>Филиал, день и удобное время.</p></li>
+          <li><span>3</span><h3>Подтвердите в WhatsApp</h3><p>Заявка придёт администратору готовой.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="block tint" id="services">
+      <div class="wrap">
+        <p class="eyebrow">Прайс</p>
+        <h2>Услуги и цены</h2>
+        <div class="chips" id="chips"></div>
+        <div class="list" id="list"></div>
+        <p class="note">Цены «от» ориентировочные: точную стоимость мастер называет после консультации.</p>
+      </div>
+    </section>
+
+    <section class="block" id="certificate">
+      <div class="wrap">
+        <div class="cert">
+          <div>
+            <p class="eyebrow left">Подарок</p>
+            <h2 class="left">Подарочный сертификат</h2>
+            <p>Выберите сумму и закажите в WhatsApp. Получить сертификат можно без визита в салон.</p>
+          </div>
+          <div class="cert-act">
+            <div class="chips" id="certChips"></div>
+            <button class="btn" type="button" id="certBtn">Заказать сертификат</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block tint" id="work">
+      <div class="wrap">
+        <p class="eyebrow">Портфолио</p>
+        <h2>Наши работы</h2>
+        <div class="grid" id="gallery"></div>
+      </div>
+    </section>
+
+    <section class="block" id="reviews">
+      <div class="wrap">
+        <p class="eyebrow">Отзывы</p>
+        <h2>Нас оценили на 4,8 из 5</h2>
+        <p class="center">175 оценок клиентов в 2ГИС.</p>
+        <p class="center"><a class="btn ghost" id="reviewsLink" href="#" target="_blank" rel="noopener">Читать отзывы в 2ГИС</a></p>
+        <div class="grid" id="reviewImgs"></div>
+      </div>
+    </section>
+
+    <section class="block tint" id="contacts">
+      <div class="wrap">
+        <p class="eyebrow">Контакты</p>
+        <h2>Филиалы</h2>
+        <div class="grid two" id="branches"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <p class="brand">Стиль<small>салон красоты</small></p>
+      <p>Петропавловск, ул. Магжана Жумабаева, 116 · <a href="https://www.instagram.com/salon_stil_petro" target="_blank" rel="noopener">Instagram</a></p>
+      <p class="demo">Демо-версия сайта. Цены взяты из открытых страниц салона.</p>
+    </div>
+  </footer>
+
+  <div class="bar" id="bar" hidden>
+    <span id="barText"></span>
+    <button class="btn light" type="button" id="openBook">Записаться</button>
+  </div>
+
+  <dialog id="dlg">
+    <h2>Запись</h2>
+    <ul id="chosen"></ul>
+    <div class="field"><label for="fName">Имя</label><input id="fName" type="text" autocomplete="name"></div>
+    <div class="field"><label for="fBranch">Филиал</label><select id="fBranch"></select></div>
+    <div class="two">
+      <div class="field"><label for="fDate">Желаемая дата</label><input id="fDate" type="date"></div>
+      <div class="field"><label for="fTime">Время</label>
+        <select id="fTime"><option>Утро (9-12)</option><option>День (12-16)</option><option>Вечер (16-20)</option></select></div>
+    </div>
+    <div class="field"><label for="fNote">Комментарий или мастер</label><input id="fNote" type="text"></div>
+    <p class="msg" id="msg" role="status"></p>
+    <div class="actions">
+      <button class="btn" type="button" id="send">Отправить в WhatsApp</button>
+      <button class="btn ghost" type="button" id="close">Назад</button>
+    </div>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
