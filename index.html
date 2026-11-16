@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="promo" id="promo" hidden></div>
   <header class="top">
     <div class="wrap top-in">
       <a class="brand" href="#">Стиль<small>салон красоты</small></a>
@@ -35,6 +36,7 @@
         <p class="eyebrow left">Петропавловск</p>
         <h1>Салон красоты «Стиль»</h1>
         <p class="lead">Стрижки, окрашивание, маникюр и брови. Выберите услуги, и заявка уйдёт администратору в WhatsApp уже готовой.</p>
+        <p class="open" id="openNow"></p>
         <div class="hero-btns">
           <a class="btn" href="#services">Выбрать услуги</a>
           <a class="btn ghost" href="#contacts">Адреса и часы</a>
@@ -83,7 +85,11 @@
       <div class="wrap">
         <p class="eyebrow">Команда</p>
         <h2>Наши мастера</h2>
-        <div class="grid" id="masterList"></div>
+        <div class="carousel">
+          <button class="arrow prev" type="button" id="mPrev" aria-label="Назад">&#8249;</button>
+          <div class="track" id="masterList" tabindex="0" aria-label="Мастера салона"></div>
+          <button class="arrow next" type="button" id="mNext" aria-label="Вперёд">&#8250;</button>
+        </div>
       </div>
     </section>
 
@@ -121,7 +127,15 @@
       </div>
     </section>
 
-    <section class="block" id="contacts">
+    <section class="block" id="faq">
+      <div class="wrap">
+        <p class="eyebrow">Вопросы</p>
+        <h2>Частые вопросы</h2>
+        <div class="faq" id="faqList"></div>
+      </div>
+    </section>
+
+    <section class="block tint" id="contacts">
       <div class="wrap">
         <p class="eyebrow">Контакты</p>
         <h2>Филиалы</h2>
@@ -137,6 +151,11 @@
       <p class="demo">Демо-версия сайта. Цены взяты из открытых страниц салона.</p>
     </div>
   </footer>
+
+  <div class="fab">
+    <a class="btn" id="fabWa" href="#" target="_blank" rel="noopener">Написать</a>
+    <a class="btn ghost" id="fabTel" href="#">Позвонить</a>
+  </div>
 
   <div class="bar" id="bar" hidden>
     <span id="barText"></span>

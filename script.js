@@ -1,5 +1,19 @@
 // ===== НАСТРОЙКИ =====
+// Мастер: M(имя, специализация, фото, описание). Фото: "img/anna.jpg" (пусто = заглушка)
+const M = (name, role, photo, text) => ({ name, role, photo, text });
+const T = "Здесь будет описание мастера: опыт, специализация.";
 const CONFIG = {
+  phone: "77000000000",      // телефон для кнопки «Позвонить» (в демо заглушка)
+  timeZone: "Asia/Almaty",   // часовой пояс для «Открыто сейчас»
+  hours: { open: 9, close: 20 },
+  promo: "",   // "" скрывает; в таблице: строка с категорией _акция
+  faq: [
+    ["Как записаться?", "Выберите услуги на сайте и нажмите «Записаться»: заявка уйдёт администратору в WhatsApp. Можно также позвонить. Мы работаем по предварительной записи."],
+    ["Сколько стоит услуга?", "Цены с пометкой «от» ориентировочные: точную стоимость мастер называет после консультации и зависит от длины и сложности работы."],
+    ["Можно ли записаться к конкретному мастеру?", "Да, выберите мастера в форме записи или напишите его имя в комментарии."],
+    ["Есть ли подарочные сертификаты?", "Да. Выберите сумму в разделе «Подарочный сертификат» и закажите в WhatsApp, приходить в салон за покупкой не нужно."],
+    ["Как перенести или отменить запись?", "Напишите администратору в WhatsApp заранее, и мы подберём другое время."]
+  ],
   whatsapp: "77000000000",   // номер салона для заявок (в демо заглушка, чтобы не писать им случайно)
   sheetUrl: "",              // ссылка на опубликованный CSV Google Таблицы; "" = список ниже
   branches: [
@@ -7,19 +21,34 @@ const CONFIG = {
     { name: "Второй филиал (адрес уточнить)", hours: "Часы работы уточнить" }
   ],
   certificates: [5000, 10000, 20000],
-  masters: [                 // photo: "img/master1.jpg" (пусто = заглушка)
-    { name: "Мастер 1", role: "Парикмахер-стилист", photo: "" },
-    { name: "Мастер 2", role: "Колорист", photo: "" },
-    { name: "Мастер 3", role: "Мастер маникюра", photo: "" },
-    { name: "Мастер 4", role: "Барбер", photo: "" }
+  masters: [                 // 16 мест: меняй строки, лишние можно удалить
+    M("Мастер 1", "Специализация", "", T),
+    M("Мастер 2", "Специализация", "", T),
+    M("Мастер 3", "Специализация", "", T),
+    M("Мастер 4", "Специализация", "", T),
+    M("Мастер 5", "Специализация", "", T),
+    M("Мастер 6", "Специализация", "", T),
+    M("Мастер 7", "Специализация", "", T),
+    M("Мастер 8", "Специализация", "", T),
+    M("Мастер 9", "Специализация", "", T),
+    M("Мастер 10", "Специализация", "", T),
+    M("Мастер 11", "Специализация", "", T),
+    M("Мастер 12", "Специализация", "", T),
+    M("Мастер 13", "Специализация", "", T),
+    M("Мастер 14", "Специализация", "", T),
+    M("Мастер 15", "Специализация", "", T),
+    M("Мастер 16", "Специализация", "", T)
   ],
   gallery: [],               // ["img/work1.jpg", ...] фото работ
   reviews: []                // ["img/reviews/1.jpg", ...] скриншоты отзывов
 };
 CONFIG.whatsapp = CONFIG.whatsapp.replace(/\D/g, "").replace(/^8(\d{10})$/, "7$1");
 
-// Услуги: [категория, название, цена, 1 = цена «от»]
+// Услуги: [категория, название, цена, 1 = цена «от», старая цена (необязательно)]
 const SERVICES = [
+  ["Комплексы", "Маникюр и педикюр с покрытием", 16500, 1],
+  ["Комплексы", "Женская стрижка и укладка (короткие волосы)", 9500, 1],
+  ["Комплексы", "Мужская стрижка и борода", 5000, 1],
   ["Женский зал", "Короткая женская стрижка", 5000, 0],
   ["Женский зал", "Каре", 6000, 0],
   ["Женский зал", "Стрижка ниже плеч, каскад", 7000, 1],
@@ -61,7 +90,7 @@ const label = (s) => (s.from ? "от " : "") + money(s.price);
 const link2gis = "https://2gis.kz/petropavlovsk/search/" + encodeURIComponent("Стиль Магжана Жумабаева 116");
 const wa = (text) => window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`, "_blank");
 
-let items = SERVICES.map(([cat, name, price, from], i) => ({ i, cat, name, price, from: !!from }));
+let items = SERVICES.map(([cat, name, price, from, old], i) => ({ i, cat, name, price, from: !!from, old: old || 0 }));
 let cat = items[0].cat;
 let cert = CONFIG.certificates[1] || CONFIG.certificates[0];
 const picked = new Set();
@@ -85,7 +114,9 @@ function parseCSV(text) {
 async function loadSheet() {
   try {
     const rows = parseCSV(await (await fetch(CONFIG.sheetUrl)).text());
-    items = rows.map((r, i) => ({ i, cat: r.cat, name: r.name, price: Number(r.price) || 0, from: /^(да|1|yes)/i.test(r.from) }));
+    const promo = rows.find(r => r.cat === "_акция");
+    if (promo) setPromo(promo.name);
+    items = rows.filter(r => r.cat !== "_акция").map((r, i) => ({ i, cat: r.cat, name: r.name, price: Number(r.price) || 0, from: /^(да|1|yes)/i.test(r.from), old: Number(r.old) || 0 }));
     picked.clear();
   } catch (e) { /* остаётся запасной список */ }
 }
@@ -96,7 +127,7 @@ function drawServices() {
   if (!cats.includes(cat)) cat = cats[0];
   $("chips").innerHTML = cats.map(c => `<button type="button" class="chip" data-cat="${c}" aria-pressed="${c === cat}">${c}</button>`).join("");
   $("list").innerHTML = items.filter(s => s.cat === cat).map(s =>
-    `<label class="row"><input type="checkbox" data-i="${s.i}" ${picked.has(s.i) ? "checked" : ""}><span>${s.name}</span><span class="p">${label(s)}</span></label>`).join("");
+    `<label class="row"><input type="checkbox" data-i="${s.i}" ${picked.has(s.i) ? "checked" : ""}><span>${s.name}</span><span class="p">${s.old ? `<s>${money(s.old)}</s>` : ""}${label(s)}</span></label>`).join("");
 }
 
 function drawCert() {
@@ -123,8 +154,8 @@ function drawStatic() {
     `<div class="card"><span class="tag">Филиал ${n + 1}</span><h3>${b.name}</h3><p>${b.hours}</p><p><a href="${link2gis}" target="_blank" rel="noopener">Открыть в 2ГИС</a></p></div>`).join("");
   $("fBranch").innerHTML = CONFIG.branches.map(b => `<option>${b.name}</option>`).join("");
   $("masterList").innerHTML = CONFIG.masters.map(m =>
-    `<article class="master"><div class="mph">${m.photo ? `<img src="${m.photo}" alt="${m.name}" loading="lazy">` : "Фото мастера"}</div><h3>${m.name}</h3><p>${m.role}</p></article>`).join("");
-  $("fMaster").innerHTML = `<option>Любой мастер</option>` + CONFIG.masters.map(m => `<option>${m.name}, ${m.role}</option>`).join("");
+    `<article class="master"><div class="mph">${m.photo ? `<img src="${m.photo}" alt="${m.name}" loading="lazy">` : "Фото мастера"}</div><h3>${m.name}</h3><p>${m.role}</p>${m.text ? `<small>${m.text}</small>` : ""}</article>`).join("");
+  $("fMaster").innerHTML = `<option>Любой мастер</option>` + CONFIG.masters.filter(m => !/^Мастер \d+$/.test(m.name)).map(m => `<option>${m.name}, ${m.role}</option>`).join("");
   $("fDate").min = new Date().toISOString().slice(0, 10);
 }
 
@@ -168,6 +199,34 @@ $("send").addEventListener("click", () => {
   $("msg").textContent = "Открываем WhatsApp: сообщение уже заполнено, остаётся нажать «Отправить».";
 });
 
+// Стрелки карусели мастеров
+const slide = (dir) => {
+  const card = document.querySelector(".master");
+  $("masterList").scrollBy({ left: dir * (card.offsetWidth + 16), behavior: "smooth" });
+};
+$("mPrev").addEventListener("click", () => slide(-1));
+$("mNext").addEventListener("click", () => slide(1));
+
+// ===== АКЦИЯ, ЧАСЫ, ВОПРОСЫ, КНОПКИ СВЯЗИ =====
+function setPromo(t) { $("promo").hidden = !t; $("promo").textContent = t || ""; }
+
+function openNow() {
+  const parts = new Intl.DateTimeFormat("ru-RU", { timeZone: CONFIG.timeZone, hour: "numeric", minute: "numeric", hour12: false }).formatToParts(new Date());
+  const get = (t) => Number(parts.find(p => p.type === t).value);
+  const now = (get("hour") % 24) + get("minute") / 60;
+  const { open, close } = CONFIG.hours, isOpen = now >= open && now < close;
+  $("openNow").classList.toggle("off", !isOpen);
+  $("openNow").textContent = isOpen ? `Открыто сейчас, до ${close}:00` : `Сейчас закрыто, откроемся в ${open}:00`;
+}
+
+function drawExtras() {
+  setPromo(CONFIG.promo);
+  openNow();
+  $("faqList").innerHTML = CONFIG.faq.map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join("");
+  $("fabWa").href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent("Здравствуйте! Хочу записаться.")}`;
+  $("fabTel").href = "tel:+" + CONFIG.phone.replace(/\D/g, "");
+}
+
 // ===== СТАРТ =====
-drawStatic(); drawServices(); drawCert(); drawBar();
+drawStatic(); drawServices(); drawCert(); drawBar(); drawExtras();
 if (CONFIG.sheetUrl) loadSheet().then(() => { drawServices(); drawBar(); });
